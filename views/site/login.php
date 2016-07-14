@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="boxlogin">
 <div class="site-login col-md-4 col-md-offset-4">
     <div class="well">
-        
+
         <?php $form = ActiveForm::begin([
             'id' => 'login-form',
             'options' => ['class' => 'bs-component'],

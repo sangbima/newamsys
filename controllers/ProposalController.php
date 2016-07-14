@@ -468,4 +468,13 @@ class ProposalController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    // public function findUserModel($id)
+    // {
+    //     if (($model = Proposal::findOne($id)) !== null) {
+    //         return $model;
+    //     } else {
+    //         throw new NotFoundHttpException('The requested page does not exist.');
+    //     }
+    // }
 }

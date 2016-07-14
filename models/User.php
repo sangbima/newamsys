@@ -35,7 +35,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 10;
 
-    public $oldpassword, $password, $newPasswordConfirm;
+    public $newpassword, $newPasswordConfirm, $editPassword, $editPasswordConfirm;
 
     /**
      * @inheritdoc
@@ -82,24 +82,33 @@ class User extends ActiveRecord implements IdentityInterface
             [['created_at', 'updated_at'], 'safe'],
             [['user_id', 'status'], 'integer'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            [['username', 'auth_key', 'password_hash', 'fullname', 'status'], 'required'],
-            [['username', 'password_hash', 'email', 'fullname'], 'required'],
-            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This username has already been taken.'],
+            // [['username', 'auth_key', 'password_hash', 'fullname', 'status'], 'required'],
+            [['username', 'email', 'fullname'], 'required'],
+            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Username ini sudah ada, silahkan cari yang lain.'],
             ['username', 'string', 'min' => 5, 'max' => 50],
             [['auth_key', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
             [['email', 'fullname'], 'string', 'max' => 100],
-            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Email ini sudah ada, silahkan cari yang lain.'],
             [['tanda_setuju', 'tanda_tolak'], 'string', 'max' => 45],
-            ['oldpassword', function($attribute, $params){
-                if(!$this->validatePassword($this->oldpassword)) {
-                    $this->addError($attribute, 'Password lama Anda salah!!!');
-                }
-            }],
-            [['oldpassword','password', 'newPasswordConfirm'], 'string', 'min' => 6, 'max' => 100],
-            [['oldpassword','password', 'newPasswordConfirm'], 'filter', 'filter' => 'trim'],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'password', 'message' => 'Password tidak sama'],
+            [['editPassword', 'editPasswordConfirm', 'newpassword', 'newPasswordConfirm'], 'string', 'min' => 6, 'max' => 100],
+            [['editPassword', 'editPasswordConfirm', 'newpassword', 'newPasswordConfirm'], 'filter', 'filter' => 'trim'],
+            [['newpassword'], 'required'],
+            [['newpassword', 'newPasswordConfirm'], 'required', 'when' => function ($model) {
+				return (!empty($model->newpassword));
+			}, 'whenClient' => "function (attribute, value) {
+                return ($('#user-newpassword').val().length>0);
+            }"],
+            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newpassword', 'message' => 'Password tidak sama'],
+            [['editPasswordConfirm'], 'compare', 'compareAttribute' => 'editPassword', 'message' => 'Password tidak sama'],
         ];
     }
+
+    // public function scenarios()
+	// {
+	// 	$scenarios = parent::scenarios();
+	// 	$scenarios['password'] = ['newpassword', 'newPasswordConfirm'];
+	// 	return $scenarios;
+	// }
 
     /**
      * @inheritdoc
@@ -120,11 +129,22 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => 'Status',
             'tanda_setuju' => 'Tanda Setuju',
             'tanda_tolak' => 'Tanda Tolak',
-            'password' => 'Password',
-            'oldpassword' => 'Password Lama',
-            'newPasswordConfirm' => 'Ulangi Password'
+            'newpassword' => 'Password',
+            'newPasswordConfirm' => 'Ulangi Password',
+            'editPassword' => 'Password Baru',
+            'editPasswordConfirm' => 'Ulangi Password',
         ];
     }
+
+    /**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getRoles()
+	{
+		return $this->hasMany(AuthAssignment::className(), [
+			'user_id' => 'id',
+		]);
+	}
 
     /**
      * @inheritdoc

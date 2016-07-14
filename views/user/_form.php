@@ -27,44 +27,41 @@ use app\models\User;
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'username')->textInput(['maxlength' => true, 'disabled' => !$model->isNewRecord,]) ?>
                         </div>
 
-                        <div class="col-md-4">
-                            <?= $form->field($model, 'password_hash')->passwordInput(['maxlength' => true])->label('Password') ?>
-                        </div>
-
-                        <div class="col-md-4">
-                            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'disabled' => !$model->isNewRecord,]) ?>
                         </div>
                     </div>
+                    <?php if($model->isNewRecord){ ?>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'newpassword')->passwordInput(['maxlength' => true]) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'newPasswordConfirm')->passwordInput(['maxlength' => true]) ?>
+                        </div>
+                    </div>
+                    <?php } else { ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'editPassword')->passwordInput(['maxlength' => true]) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'editPasswordConfirm')->passwordInput(['maxlength' => true]) ?>
+                        </div>
+                    </div>
+                    <?php } ?>
+                    <div class="row">
+                        <div class="col-md-6">
                             <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
                         </div>
-
-                        <div class="col-md-4">
-                            <?php
-                                echo $form->field($model, 'tanda_setuju')->widget(Select2::classname(), [
-                                    'data' => $options['setuju'],
-                                    'options' => ['placeholder' => 'Pilih Tanda Setuju ...'],
-                                    'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
-                                ]);
-                            ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?php
-                                echo $form->field($model, 'tanda_tolak')->widget(Select2::classname(), [
-                                    'data' => $options['tolak'],
-                                    'options' => ['placeholder' => 'Pilih Tanda Tolak ...'],
-                                    'pluginOptions' => [
-                                        'allowClear' => true
-                                    ],
-                                ]);
-                            ?>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'status')->checkbox([
+                                'template' => "<div class=\"col-lg-offset-1 col-lg-11\"><div class=\"togglebutton\"><label>{input} {label}</label></div></div>\n<div class=\"col-lg-8\">{error}</div>",
+                            ]) ?>
                         </div>
                     </div>
                     <div class="row">

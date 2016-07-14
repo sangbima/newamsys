@@ -30,8 +30,7 @@
         "chillerlan/php-qrcode": "dev-master",
         "bupy7/yii2-widget-cropbox": "*",
         "2amigos/yii2-ckeditor-widget" : "*",
-        "mdmsoft/yii2-admin": "~2.0",
-        "mdmsoft/yii2-easyui": "dev-master"
+        "mdmsoft/yii2-admin": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

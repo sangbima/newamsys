@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fa fa-plus" aria-hidden="true"></i> Pasar', ['create'], ['class' => 'btn btn-success btn-raised']) ?>
     </p>
     <?php } ?>
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -61,4 +63,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 </div>

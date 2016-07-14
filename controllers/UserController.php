@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
+use app\models\UserForm;
 
 
 /**
@@ -82,33 +83,20 @@ class UserController extends Controller
             return \yii\widgets\ActiveForm::validate($model);
         }
 
-        $options['setuju']=[
-            'BGR-Setuju' => 'BGR-Setuju',
-            'ABMI-Setuju' => 'ABMI-Setuju',
-            'PPI-Setuju' => 'PPI-Setuju',
-            ];
-
-        $options['tolak']=[
-            'BGR-Tolak' => 'BGR-Tolak',
-            'ABMI-Tolak' => 'ABMI-Tolak',
-            'PPI-Tolak' => 'PPI-Tolak',
-            ];
-
-
         if ($model->load(Yii::$app->request->post())) {
-
+            $model->status = $model->status == 1 ? 10:0;
+            $model->setPassword($model->newpassword);
             $model->generateAuthKey();
-            $model->setPassword($model->password_hash);
-            // echo $model->auth_key;
-            // die();
-
-            $model->save();
-
-            return $this->redirect(['view', 'id' => $model->id]);
+            if($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'options' => $options,
             ]);
         }
     }
@@ -128,25 +116,23 @@ class UserController extends Controller
             return \yii\widgets\ActiveForm::validate($model);
         }
 
-        $options['setuju']=[
-            'BGR-Setuju' => 'BGR-Setuju',
-            'ABMI-Setuju' => 'ABMI-Setuju',
-            'PPI-Setuju' => 'PPI-Setuju',
-            ];
-
-        $options['tolak']=[
-            'BGR-Tolak' => 'BGR-Tolak',
-            'ABMI-Tolak' => 'ABMI-Tolak',
-            'PPI-Tolak' => 'PPI-Tolak',
-            ];
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (!empty($model->editPassword)) {
+				$model->setPassword($model->editPassword);
+			}
+            $model->status = $model->status == 1 ? 10 : 0;
+            if($model->save(false)) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $model->status = $model->status == 10 ? 1 : 0;
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
+            $model->status = $model->status == 10 ? 1 : 0;
             return $this->render('update', [
                 'model' => $model,
-                'options' => $options,
-
             ]);
         }
     }

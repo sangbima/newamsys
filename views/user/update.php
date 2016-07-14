@@ -14,7 +14,6 @@ $this->params['breadcrumbs'][] = 'Ubah';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'options' => $options,
     ]) ?>
 
 </div>
