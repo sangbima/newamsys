@@ -23,7 +23,7 @@ $datalist = new Datalist;
                 'options' => ['class' => 'bs-component'],
                 'id' => $model->formName(),
                 'fieldConfig' => [
-                    'options' => ['class' => 'form-group label-floating'],
+                    'options' => ['class' => 'form-group fg-w-margin label-floating'],
                     'template' => "{label}{input}\n{hint}\n{error}<span class=\"material-input\"></span>",
                 ],
             ]); ?>

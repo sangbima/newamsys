@@ -258,6 +258,10 @@ class ProposalController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
+            $model->tgl_tanam = date('d-m-Y', strtotime($model->tgl_tanam));
+            $model->tgl_panen = date('d-m-Y', strtotime($model->tgl_panen));
+            $model->est_tgl_kirim = date('d-m-Y', strtotime($model->est_tgl_kirim));
+            $model->prop_kadaluarsa = date('d-m-Y', strtotime($model->prop_kadaluarsa));
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -430,12 +434,13 @@ class ProposalController extends Controller
     public function actionDelete($id)
     {
         $model= $this->findModel($id);
-
-        try {
-             $model->delete();
-        } catch(\yii\db\IntegrityException $e) {
-             throw new \yii\web\ForbiddenHttpException('Anda tidak bisa menghapus record ini, karena masih digunakan oleh record yang lain');
-        }
+        $model->delete();
+        // $this->findModel($id)->delete();
+        // try {
+        //      $model->delete();
+        // } catch(\yii\db\IntegrityException $e) {
+        //      throw new \yii\web\ForbiddenHttpException('Anda tidak bisa menghapus record ini, karena masih digunakan oleh record yang lain');
+        // }
         return $this->redirect(['index']);
     }
 

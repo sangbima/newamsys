@@ -28,7 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'no_proposal',
+            [
+                'attribute'=>'no_proposal',
+                'value'=>'no_proposal',
+                // 'filter'=>Html::textInput($searchModel, 'yesss', ['class'=>'test'])
+            ],
             [
                 'attribute'=>'komoditas_id',
                 'label' => 'Komoditas',
@@ -80,10 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => Helper::filterActionColumn('{my_button} {view} {update} {delete}'),
                 // 'headerOptions' => ['width' => '80'],
                 'buttons' => [
-                'my_button' => function ($url, $model, $key) {
-                    return Html::a('<span class="fa fa-print"></span>', ['pdf', 'id'=>$model->id], ['target'=>'_blank']);
-                },
-            ]],
+                    'my_button' => function ($url, $model, $key) {
+                        return Html::a('<span class="fa fa-print"></span>', ['pdf', 'id'=>$model->id], ['target'=>'_blank']);
+                    },
+                ]
+            ],
             // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

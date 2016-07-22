@@ -30,6 +30,7 @@ class Websvc8000Controller extends \yii\rest\Controller
             'daftar-pasar' => ['GET','OPTIONS'],
             'daftar-pasar-tag' => ['GET','OPTIONS'],
             'daftar-proposal' => ['GET','OPTIONS'],
+            'daftar-survey-tanam' => ['GET','OPTIONS'],
         ];
 
     }
@@ -262,8 +263,8 @@ class Websvc8000Controller extends \yii\rest\Controller
     public function actionDaftarProposal()
     {
         $query = new \yii\db\Query;
-        $query->select('a.*, b.nama AS provinsi_nama, c.nama AS kabupatenkota_nama, d.nama AS kecamatan_nama, 
-                e.nama AS desakelurahan_nama, f.nama AS lapak_prov_nama, g.nama AS lapak_kabkota_nama, 
+        $query->select('a.*, b.nama AS provinsi_nama, c.nama AS kabupatenkota_nama, d.nama AS kecamatan_nama,
+                e.nama AS desakelurahan_nama, f.nama AS lapak_prov_nama, g.nama AS lapak_kabkota_nama,
                 h.nama AS lapak_kec_nama, i.nama AS lapak_desakel_nama, j.nama AS petani_nama, k.nama AS komoditas_nama,
                 l.nama AS varietas_nama, m.nama AS jenis_nama, n.nama AS jenis_bobot_kering_nama, o.nama AS pasar_tag_nama,
                 p.nama AS pasar_nama
@@ -292,6 +293,37 @@ class Websvc8000Controller extends \yii\rest\Controller
 
         $model = $command->queryAll();
 
+        return $model;
+    }
+
+    /**
+    * Daftar Survey Tanam by user ID
+    * Method GET
+    * Request -
+    * return all
+    */
+    public function actionDaftarSurveyTanam()
+    {
+        $query = new \yii\db\Query;
+        $query->select('a.*, b.nama AS provinsi_nama, c.nama AS kabupatenkota_nama, d.nama AS kecamatan_nama,
+                e.nama AS desakelurahan_nama, j.nama AS petani_nama, k.nama AS komoditas_nama,
+                l.nama AS varietas_nama, m.nama AS jenis_nama
+            ')
+            ->from('survey_tanam a')
+            ->leftJoin('provinsi b', 'a.provinsi_id = b.id')
+            ->leftJoin('kabupatenkota c', 'a.kabupatenkota_id = c.id')
+            ->leftJoin('kecamatan d', 'a.kecamatan_id = d.id')
+            ->leftJoin('desakelurahan e', 'a.desakelurahan_id = e.id')
+            ->leftJoin('petani j', 'a.petani_id = j.id')
+            ->leftJoin('komoditas k', 'a.komoditas_id = k.id')
+            ->leftJoin('varietas l', 'a.varietas_id = l.id')
+            ->leftJoin('jenis m', 'a.jenis_id = m.id')
+            ->where(['a.user_id' => Yii::$app->user->id])
+            ->orderBy([
+                'a.id' => SORT_DESC,
+            ]);
+        $command = $query->createCommand();
+        $model = $command->queryAll();
         return $model;
     }
 

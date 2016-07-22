@@ -26,7 +26,7 @@ $datalist = new Datalist;
             $form = ActiveForm::begin([
                 'options' => ['class' => 'bs-component'],
                 'fieldConfig' => [
-                    'options' => ['class' => 'form-group label-floating'],
+                    'options' => ['class' => 'form-group fg-w-margin label-floating'],
                     'template' => "{label}{input}\n{hint}\n{error}",
                 ],
                 'id'=>$model->formName(),
@@ -68,7 +68,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'provinsi_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getProvinceList(),
                                     'options' => ['placeholder' => 'Provinsi ...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -156,7 +155,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'komoditas_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getListKomoditas(),
                                     'options' => ['placeholder' => 'Komoditas ...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -244,7 +242,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'jenis_bobot_kering_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getListJenisBobotKering(),
                                     'options' => ['placeholder' => 'Jenis Bobot Kering ...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -278,7 +275,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'lapak_prov_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getProvinceList(),
                                     'options' => ['placeholder' => 'Lapak Provinsi ...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -346,7 +342,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'pasar_tag_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getListPasarTag(),
                                     'options' => ['placeholder' => 'Pasar Tag...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],
@@ -378,7 +373,6 @@ $datalist = new Datalist;
                                 echo $form->field($model, 'pasar_id')->widget(Select2::classname(), [
                                     'data' => $datalist->getListPasar(),
                                     'options' => ['placeholder' => 'Pasar ...'],
-                                    'disabled' => !$model->isNewRecord,
                                     'pluginOptions' => [
                                         'allowClear' => true
                                     ],

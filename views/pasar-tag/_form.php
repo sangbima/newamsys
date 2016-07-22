@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
             <?php $form = ActiveForm::begin([
                 'options' => ['class' => 'bs-component'],
                 'fieldConfig' => [
-                    'options' => ['class' => 'form-group label-floating'],
+                    'options' => ['class' => 'form-group fg-w-margin label-floating'],
                     'template' => "{label}{input}\n{hint}\n{error}",
                 ],
                 'enableAjaxValidation' => true

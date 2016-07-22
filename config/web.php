@@ -8,6 +8,7 @@ $config = [
     'name' => 'AM<span>SYS</span>',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'dashboard/index',
     'modules' => [
         'admin' => [
             'class' => 'mdm\admin\Module',
@@ -92,11 +93,11 @@ $config = [
                         'OPTIONS daftar-pasar' => 'options',
                         'OPTIONS daftar-pasar-tag' => 'options',
                         'OPTIONS daftar-petani' => 'options',
-
+                        'OPTIONS daftar-proposal' => 'options',
+                        'OPTIONS daftar-survey-tanam' => 'options',
                         'OPTIONS tambah-petani' => 'options',
                         'OPTIONS tambah-proposal' => 'options',
-
-
+                        'OPTIONS tambah-survey-tanam' => 'options',
                         'OPTIONS ganti-password' => 'options',
                         //'OPTIONS daftar-produksi' => 'options',
                     ],
@@ -115,6 +116,7 @@ $config = [
         'allowActions' => [
             'admin/*',
             'site/*', // add or remove allowed actions to this list
+            'dashboard/index',
             'websvc8000/*',
             'websvc8010/*',
             'websvc8040/*',

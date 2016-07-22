@@ -451,3 +451,12 @@ dd, dt {
 .description-block>.description-text {
     text-transform: uppercase;
 }
+
+.form-group {
+    padding-bottom: 0px;
+    margin: 0;
+}
+.fg-w-margin {
+    padding-bottom: 7px;
+    margin: 28px 0 0 0;
+}

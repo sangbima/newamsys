@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id' => 'login-form',
             'options' => ['class' => 'bs-component'],
             'fieldConfig' => [
-                'options' => ['class' => 'form-group label-floating'],
+                'options' => ['class' => 'form-group fg-w-margin label-floating'],
                 'template' => "{label}{input}<span class=\"material-input\"></span>",
             ]
         ]); ?>

@@ -171,7 +171,7 @@ class Proposal extends \yii\db\ActiveRecord
             'desakelurahan_id' => 'Desa/Kelurahan',
             'luas_lahan' => 'Luas Lahan',
             'luas_unit' => 'Luas Unit',
-            'luas_m2' => 'Luas(M2)',
+            'luas_m2' => 'Luas(m2)',
             'komoditas_id' => 'Komoditas',
             'varietas_id' => 'Varietas',
             'jenis_id' => 'Jenis',

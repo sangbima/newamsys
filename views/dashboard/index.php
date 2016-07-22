@@ -1,3 +1,12 @@
+<?php
+
+/* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+$this->title = 'AMSYS Dashboard';
+
+?>
 <div class="content">
     <figure class="org-chart cf">
         <ul class="administration">
@@ -8,16 +17,16 @@
                         <ul class="departments cf">
                             <li></li>
                             <li id="first-dept" class="department dep-a">
-                                <a href="#"><span>1. CANVASSING</span></a>
+                                <?= Html::a('<span>CANVASSING</span>', ['#']) ?>
                             </li>
                             <li class="department dep-b">
-                                <a href="#"><span>2. TRADING</span></a>
+                                <?= Html::a('<span>TRADING</span>', ['/proposal/index']) ?>
                             </li>
                             <li class="department dep-c">
-                                <a href="#"><span>3. DISTRIBUTION</span></a>
+                                <?= Html::a('<span>DISTRIBUTION</span>', ['#']) ?>
                             </li>
                             <li id="last-dept" class="department dep-d">
-                                <a href="#"><span>4. HILIR</span></a>
+                                <?= Html::a('<span>HILIR</span>', ['#']) ?>
                             </li>
                         </ul>
                     </li>

@@ -5,8 +5,8 @@ body {
 }
 
 .full {
-  /*background: url(../images/map-indonesia-bg.png) no-repeat center center fixed;*/
-  background-color: black;
+  background: url(../images/map-indonesia-bg.png) no-repeat center center fixed;
+  /*background-color: black;*/
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -74,14 +74,16 @@ body {
 
 .content ul a{
 	display: block;
-	background: #ccc;
-	border: 4px solid #fff;
+	/*background: #ccc;*/
+    background: #008d97;
+	/*border: 4px solid #fff;*/
 	text-align: center;
 	overflow: hidden;
 	font-size: .7em;
 	text-decoration: none;
 	font-weight: bold;
-	color: #333;
+	/*color: #333;*/
+    color: #fff;
 	height: 70px;
 	margin-bottom: -26px;
 	box-shadow: 4px 4px 9px -4px rgba(0,0,0,0.4);
@@ -155,7 +157,7 @@ body {
 	float: left;
 	/*left: 27.2%;*/
     left: 31.2%;
-	border-right: 4px solid white;
+	border-right: 4px solid #66bac1;
     height: 130px;
 }
 
@@ -207,9 +209,12 @@ body {
 	width: 81.1%;
 	/*height: 22px;*/
     height: 93px;
-	border-top: 4px solid #fff;
+	/*border-top: 4px solid #fff;
 	border-right: 4px solid #fff;
-	border-left: 4px solid #fff;
+	border-left: 4px solid #fff;*/
+    border-top: 4px solid #66bac1;
+	border-right: 4px solid #66bac1;
+	border-left: 4px solid #66bac1;
 	margin: 0 auto;
 	top: 130px;
 	/*left: 9.1%*/
@@ -237,7 +242,7 @@ body {
 	position: absolute;
 	width: 0;
     height: 88px;
-	border-left: 4px solid white;
+	border-left: 4px solid #66bac1;
 	z-index: 1;
     top: -88px;
 	left: 50%;
@@ -245,12 +250,7 @@ body {
 }
 
 #first-dept:before {
-    content: "";
-	display: block;
-	position: absolute;
-	width: 0;
-	border-left: 4px solid white;
-	z-index: 1;
+    border-left: 4px solid #66bac1;
 	left: 50%;
 	margin-left: -4px;
 }
@@ -260,12 +260,7 @@ body {
 }
 
 #last-dept:before {
-    content: "";
-	display: block;
-	position: absolute;
-	width: 0;
-	border-left: 4px solid white;
-	z-index: 1;
+    border-left: 4px solid #66bac1;
 	left: 50%;
 	margin-left: -4px;
 }
@@ -355,37 +350,25 @@ body {
 }
 
 /* Department/ section colors */
-.department.dep-a a{ background: #FFD600; }
-.department.dep-b a{ background: #AAD4E7; }
-.department.dep-c a{ background: #FDB0FD; }
-.department.dep-d a{ background: #A3A2A2; }
+.department.dep-a a{ background: #ff6900; }
+.department.dep-b a{ background: #66bac1; }
+.department.dep-c a{ background: #337ab7; }
+.department.dep-d a{ background: #607d8b; }
 .department.dep-e a{ background: #f0f0f0; }
+
+.icon {
+    font-size: 28px;
+}
 
 @media all and (max-device-width: 768px){
     .department:before{
-    	content: "";
-    	display: block;
-    	position: absolute;
-    	width: 0;
-        height: 88px;
-    	border-left: 4px solid white;
-    	z-index: 1;
-        top: -88px;
+    	top: -88px;
     	left: 50%;
-    	margin-left: -4px;
     }
 
     #first-dept:before {
-        content: "";
-    	display: block;
-    	position: absolute;
-    	width: 0;
-    	/*height: 22px;*/
-    	border-left: 4px solid white;
-    	z-index: 1;
-    	top: -22px;
+        top: -22px;
     	left: 50%;
-    	margin-left: -4px;
     }
 
     #last-dept {
@@ -393,15 +376,7 @@ body {
     }
 
     #last-dept:before {
-        content: "";
-    	display: block;
-    	position: absolute;
-    	width: 0;
-    	/*height: 22px;*/
-    	border-left: 4px solid white;
-    	z-index: 1;
-    	top: -22px;
+        top: -22px;
     	left: 50%;
-    	margin-left: -4px;
     }
 }

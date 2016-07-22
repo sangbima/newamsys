@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'AMSYS Dashboard';
 use yii\helpers\Html;
 use miloschuman\highcharts\Highcharts;
 ?>
@@ -32,7 +32,7 @@ use miloschuman\highcharts\Highcharts;
                   'yAxis' => [
                      'title' => ['text' => 'Harga Dalam Rupiah']
                   ],
-                  
+
                    'series' => $modelNama
                ]
             ]);
@@ -103,5 +103,5 @@ use miloschuman\highcharts\Highcharts;
     </div>
   </div>
 </div>
-   </div> 
+   </div>
 </div>
