@@ -435,8 +435,8 @@ class Websvc8010Controller extends \yii\rest\Controller
                         'est_bobot_ton' => $model->est_bobot_ton,
                         'latitude' => $model->latitude,
                         'longitude' => $model->longitude,
-                        'created' => $model->created_at,
-                        'updated' => $model->updated_at,
+                        'created_at' => $model->created_at,
+                        'updated_at' => $model->updated_at,
                     ]
                 ];
             } else {
