@@ -30,6 +30,7 @@ class AmsysAsset extends AssetBundle
       'bootstrap-material-design/js/material.min.js',
       'js/bootbox.min.js',
       'js/script.js',
+      'http://maps.googleapis.com/maps/api/js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

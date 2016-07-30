@@ -23,6 +23,8 @@ class Websvc8010Controller extends \yii\rest\Controller
             'tambah-petani' => ['POST','OPTIONS'],
             'tambah-kebpasar' => ['POST','OPTIONS'],
             'tambah-survey-tanam' => ['POST','OPTIONS'],
+            'tambah-lapak-proses' => ['POST','OPTIONS'],
+            'tambah-armada-kirim' => ['POST','OPTIONS'],
             'options' => ['OPTIONS'],
         ];
 
@@ -266,29 +268,44 @@ class Websvc8010Controller extends \yii\rest\Controller
                         'est_tgl_kirim' => $model->est_tgl_kirim,
                         'prop_kadaluarsa' => $model->prop_kadaluarsa,
                         'petani_nama' => $model->petani->nama,
+                        'petani_id' => $model->petani_id,
                         'provinsi_nama' => $model->provinsi->nama,
+                        'provinsi_id' => $model->provinsi_id,
                         'kabupatenkota_nama' => $model->kabupatenkota->nama,
+                        'kabupatenkota_id' => $model->kabupatenkota_id,
                         'kecamatan_nama' => $model->kecamatan->nama,
+                        'kecamatan_id' => $model->kecamatan_id,
                         'desakelurahan_nama' => $model->desakelurahan->nama,
+                        'desakelurahan_id' => $model->desakelurahan_id,
                         'luas_lahan' => $model->luas_lahan,
                         'luas_unit' => $model->luas_unit,
                         'luas_m2' => $model->luas_m2,
                         'komoditas_nama' => $model->komoditas->nama,
+                        'komoditas_id' => $model->komoditas_id,
                         'varietas_nama' => $model->varietas->nama,
+                        'varietas_id' => $model->varietas_id,
                         'jenis_nama' => $model->jenis->nama,
+                        'jenis_id' => $model->jenis_id,
                         'lapak_prov_nama' => $model->lapakProv->nama,
+                        'lapak_prov_id' => $model->lapak_prov_id,
                         'lapak_kabkota_nama' => $model->lapakKabkota->nama,
+                        'lapak_kabkota_id' => $model->lapak_kabkota_id,
                         'lapak_kec_nama' => $model->lapakKec->nama,
+                        'lapak_kec_id' => $model->lapak_kec_id,
                         'lapak_desakel_nama' => $model->lapakDesakel->nama,
+                        'lapak_desakel_id' => $model->lapak_desakel_id,
                         'est_bobot_basah' => $model->est_bobot_basah,
                         'est_bobot_kering' => $model->est_bobot_kering,
                         'jenis_bobot_kering_nama' => $model->jenisBobotKering->nama,
+                        'jenis_bobot_kering_id' => $model->jenis_bobot_kering_id,
                         'biaya_tebas' => (int)$model->biaya_tebas,
                         'biaya_proses' => (int)$model->biaya_proses,
                         'pasar_tag_nama' => $model->pasarTag->nama,
+                        'pasar_tag_id' => $model->pasar_tag_id,
                         'biaya_kirim' => (int)$model->biaya_kirim,
                         'kapasitas_pasar' => $model->kapasitas_pasar,
                         'pasar_nama' => $model->pasar->nama,
+                        'pasar_id' => $model->pasar_id,
                         'est_harga_jual' => (int)$model->est_harga_jual,
                         'latitude' => $model->latitude,
                         'longitude' => $model->longitude,
@@ -318,6 +335,21 @@ class Websvc8010Controller extends \yii\rest\Controller
         }
     }
 
+    /**
+    * Tambah Kebutuhan Pasar
+    * Method POST
+    * Request pasar_id, kuantitas, kuantitas_unit, pembeli, tgl_butuh, keterangan, latitude, longitude, harga
+    * Response Success
+    * {
+    *   "status" : "success",
+    *   "data" : {"id":"<val>", "pasar_id":"<val>", "kuantitas":"<val>",
+    *             "kuantitas_unit":"<val>", "pembeli":"<val>", "tgl_butuh":"<val>","keterangan":"<val>",
+    *             "latitude":"<val>", "longitude":"<val>", "harga":"<val>"
+    *             }
+    * }
+    * Response Failed
+    * {"status":""}
+    */
     public function actionTambahKebpasar()
     {
         $model = new \app\models\KebutuhanPasar();
@@ -418,16 +450,24 @@ class Websvc8010Controller extends \yii\rest\Controller
                     'status' => 'success',
                     'data' => [
                         'id' => $model->id,
+                        'petani_id' => $model->petani_id,
                         'petani_nama' => $model->petani->nama,
+                        'desakelurahan_id' => $model->desakelurahan_id,
                         'desakelurahan_nama' => $model->desakelurahan->nama,
+                        'kecamatan_id' => $model->kecamatan_id,
                         'kecamatan_nama' => $model->kecamatan->nama,
+                        'kabupatenkota_id' => $model->kabupatenkota_id,
                         'kabupatenkota_nama' => $model->kabupatenkota->nama,
+                        'provinsi_id' => $model->provinsi_id,
                         'provinsi_nama' => $model->provinsi->nama,
                         'luas_lahan' => $model->luas_lahan,
                         'luas_unit' => $model->luas_unit,
                         'luas_m2' => $model->luas_m2,
+                        'komoditas_id' => $model->komoditas_id,
                         'komoditas_nama' => $model->komoditas->nama,
+                        'varietas_id' => $model->varietas_id,
                         'varietas_nama' => $model->varietas->nama,
+                        'jenis_id' => $model->jenis_id,
                         'jenis_nama' => $model->jenis->nama,
                         'tgl_panen' => $model->tgl_panen,
                         'tgl_tanam' => $model->tgl_tanam,
@@ -437,6 +477,9 @@ class Websvc8010Controller extends \yii\rest\Controller
                         'longitude' => $model->longitude,
                         'created_at' => $model->created_at,
                         'updated_at' => $model->updated_at,
+                        'user_id' => $model->user_id,
+                        'picture' => $model->picture,
+                        'proposal_id' => $model->proposal_id,
                     ]
                 ];
             } else {
@@ -447,5 +490,161 @@ class Websvc8010Controller extends \yii\rest\Controller
         }
 
         return $response;
+    }
+
+    /**
+    * Tambah Lapak Proses
+    * Method POST
+    * Request proposal_id, latitude, longitude, keterangan, data_karung
+    * {
+    *    "proposal_id":3,
+    *    "data_karung":[15,7,4,8],
+    *    "keterangan":"Keterangan baru"
+    * }
+    * Response Success
+    * {
+    *   "status" : "success",
+    *   "data" : {"id":"<val>", "proposal_id":"<val>", "no_proposal":"<val>", "keterangan":"<val>",
+    *             "latitude":"<val>", "longitude":"<val>", "data_karung":"array(<val>)", "bobot_muat_kg":"<val>",
+    *             "jumlah_karung":"<val>", "created_at":"<val>", "updated_at":"<val>"
+    *             }
+    * }
+    * Response If Failed
+    * {"status":""}
+    */
+    public function actionTambahLapakProses()
+    {
+        $model = new \app\models\LapakProses();
+
+        $request = Yii::$app->request;
+        // var_dump($request->post());die();
+        if (isset($request)) {
+            $model->proposal_id = $request->post('proposal_id');
+            $model->latitude = $request->post('latitude');
+            $model->longitude = $request->post('longitude');
+            $model->keterangan = $request->post('keterangan');
+
+            $valid = $model->validate();
+
+            $transaction = \Yii::$app->db->beginTransaction();
+
+            try {
+                if($flag = $model->save(false)) {
+                    foreach($request->post('data_karung') as $datakarung) {
+                        $modelsLapakKarung = new \app\models\LapakKarung();
+                        $modelsLapakKarung->lapak_proses_id = $model->id;
+                        $modelsLapakKarung->bobot_kg = $datakarung;
+                        if(!($flag = $modelsLapakKarung->save(false))) {
+                            $transaction->rollBack();
+                            break;
+                        }
+                    }
+                }
+                if($flag) {
+                    $transaction->commit();
+                    $models = \app\models\LapakProses::findOne($model->id);
+                    $response = [
+                        'status' => 'success',
+                        'data' => [
+                            'id' => $models->id,
+                            'proposal_id' => $models->proposal_id,
+                            'no_proposal' => $models->proposal->no_proposal,
+                            'keterangan' => $models->keterangan,
+                            'data_karung' => $models->lapakKarungs,
+                            'bobot_muat_kg' => $models->bobot_muat_kg,
+                            'jumlah_karung' => $models->jumlah_karung,
+                            'latitude' => $models->latitude,
+                            'longitude' => $models->longitude,
+                            'created_at' => $models->created_at,
+                            'updated_at' => $models->updated_at
+                        ]
+                    ];
+                } else {
+                    $response = '';
+                }
+            }catch (Exception $e) {
+                $transaction->rollBack();
+            }
+        } else {
+            $response = '';
+        }
+
+        return $response;
+    }
+
+    /**
+    * Tambah Armada Kirim
+    * Method POST
+    * Request proposal_id, lapak_proses_id, pasar_tag_id, no_armada, no_polisi, pengemudi, latitude, longitude,
+    * keterangan
+    * Response Success
+    * {
+    *   "status" : "success",
+    *   "data" : {"id":"<val>", "proposal_id":"<val>", "no_proposal":"<val>", "lapak_proses_id":"<val>", "kode_kiriman":"<val>",
+    *             "pasar_tag_id":"<val>", "pasar_tag_nama":"<val>", "bobot_muat_kg":"<val>", "jumlah_karung":"<val>", "no_armada":"<val>",
+    *             "no_polisi":"<val>", "pengemudi":"<val>", "keterangan":"<val>", "latitude":"<val>", "longitude":"<val>",
+    *             "created_at":"<val>", "updated_at":"<val>"
+    *             }
+    * }
+    * Response If Failed
+    * {"status":""}
+    */
+    public function actionTambahArmadaKirim()
+    {
+        $model = new \app\models\ArmadaKirim();
+
+        $request = Yii::$app->request;
+
+        if (isset($request)) {
+            $model->proposal_id = $request->post('proposal_id');
+            $model->lapak_proses_id = $request->post('lapak_proses_id');
+            $model->pasar_tag_id = $request->post('pasar_tag_id');
+            $model->kode_kiriman = $this->generateResiNo();
+            $model->no_armada = $request->post('no_armada');
+            $model->no_polisi = $request->post('no_polisi');
+            $model->pengemudi = $request->post('pengemudi');
+            $model->keterangan = $request->post('keterangan');
+            $model->latitude = $request->post('latitude');
+            $model->longitude = $request->post('longitude');
+
+            if($model->save()){
+                $response = [
+                    'status' => 'success',
+                    'data' => [
+                        'id' => $model->id,
+                        'kode_kiriman' => $model->kode_kiriman,
+                        'proposal_id' => $model->proposal_id,
+                        'no_proposal' => $model->proposal->no_proposal,
+                        'lapak_proses_id' => $model->lapak_proses_id,
+                        'pasar_tag_id' => $model->pasar_tag_id,
+                        'pasar_tag_nama' => $model->pasarTag->nama,
+                        'bobot_muat_kg' => $model->lapakProses->bobot_muat_kg,
+                        'jumlah_karung' => $model->lapakProses->jumlah_karung,
+                        'no_armada' => $model->no_armada,
+                        'no_polisi' => $model->no_polisi,
+                        'pengemudi' => $model->pengemudi,
+                        'keterangan' => $model->keterangan,
+                        'latitude' => $model->latitude,
+                        'longitude' => $model->longitude,
+                        'created_at' => $model->created_at,
+                        'updated_at' => $model->updated_at
+                    ]
+                ];
+            } else {
+                $response = '';
+            }
+        } else {
+            $response = '';
+        }
+
+        return $response;
+    }
+
+    public function generateResiNo()
+    {
+        // Format Nomor proposal: AMSYS[UNIXTIME][random_int(100, 999)]
+
+        $resi = 'AMSYS'.date('U').random_int(100, 999);
+        return $resi;
     }
 }

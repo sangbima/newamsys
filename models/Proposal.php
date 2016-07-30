@@ -52,6 +52,7 @@ use yii\behaviors\BlameableBehavior;
  * @property string $setuju_berkas
  * @property integer $versi
  * @property string $picture
+ * @property string $status
  *
  * @property Desakelurahan $desakelurahan
  * @property Jenis $jenis
@@ -112,7 +113,7 @@ class Proposal extends \yii\db\ActiveRecord
             [['luas_lahan', 'luas_m2', 'biaya_tebas', 'biaya_proses', 'kapasitas_pasar'], 'string'],
             [['no_proposal', 'petani_id', 'provinsi_id', 'kabupatenkota_id', 'kecamatan_id', 'desakelurahan_id', 'luas_lahan', 'luas_m2', 'komoditas_id', 'varietas_id', 'jenis_id', 'tgl_panen', 'lapak_prov_id', 'lapak_kabkota_id', 'lapak_kec_id', 'lapak_desakel_id', 'est_bobot_basah', 'jenis_bobot_kering_id', 'biaya_tebas', 'biaya_proses', 'pasar_tag_id', 'est_tgl_kirim', 'kapasitas_pasar', 'prop_kadaluarsa'], 'required'],
             [['luas_unit', 'kapasitas_periode'], 'string'],
-            [['no_proposal'], 'string', 'max' => 100],
+            [['no_proposal', 'status'], 'string', 'max' => 100],
             [['est_bobot_basah', 'est_bobot_kering'], 'string', 'max' => 45],
             [['picture'], 'string', 'max' => 1000],
             [['tgl_tanam'], function($attribute, $params){
@@ -328,6 +329,14 @@ class Proposal extends \yii\db\ActiveRecord
     public function getProposalHistories()
     {
         return $this->hasMany(ProposalHistory::className(), ['proposal_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLapakProses()
+    {
+        return $this->hasMany(LapakProses::className(), ['proposal_id' => 'id']);
     }
 
     public static function proposalstatus($status)

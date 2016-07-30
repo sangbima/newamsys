@@ -5,17 +5,16 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\LapakProses */
 
-$this->title = 'Update Lapak Proses: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Lapak Proses', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Ubah Proses Lapak: ' . $model->proposal->no_proposal;
+$this->params['breadcrumbs'][] = ['label' => 'Proses Lapak', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->proposal->no_proposal, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Ubah';
 ?>
 <div class="lapak-proses-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
+        'modelsLapakKarung' => $modelsLapakKarung
     ]) ?>
 
 </div>

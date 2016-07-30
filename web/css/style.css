@@ -1,0 +1,226 @@
+html, body{
+	background: #fff;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	background: url(../images/map-indonesia-bg2.png) no-repeat center center fixed;
+}
+
+@font-face {
+    font-family: lum;
+    src: url(lium1.ttf);
+}
+
+.frame{
+	width:100%;
+	height:auto;
+	margin-top: 65px;
+	float: left;
+	position: absolute;			
+	max-width: 1000px;
+	
+}
+
+.inframe{
+	background: red;
+	width: 100%;
+	height: 100%;
+	margin:0 auto;
+}
+
+
+.logo{
+	float: left;
+	top:227px;
+	position: absolute;
+	left: 176px;
+	z-index: 9000;
+}
+
+.logotext{
+	
+	float: left;
+	top:-20px;
+	position: absolute;
+	left: 485px;
+	z-index: 1000;
+	
+}
+
+.logotext h3{
+	font-family: lum;
+	font-size: 80px;
+	margin-bottom: 0px;
+}
+
+.logotext p{
+	font-family: lum;
+	font-size: 17px;
+	margin-top: -30px;
+}
+
+
+
+.red{
+	float:left;
+	width: 1280px;
+	background-repeat: no-repeat;
+	background-image: url(../images/red.png);
+	height: 280px;
+	position: absolute;
+	left: 198px;	
+	z-index: 100;
+	top:44px;
+	text-align: right;
+	
+}
+
+a.canvasing, a.trading, a.distri, a.hilir, a.about{
+	text-decoration: none;
+}
+
+
+
+
+.textbox{
+	float: right;
+	width: 560px;
+	height:auto;
+	background: none; 
+	margin-right: -40px;
+	text-align: left;
+	line-height: 10px;
+	padding: 33px 0px 20px 0px;
+}
+
+.textbox2{
+	float: right;
+	width: 560px;
+	height:auto;
+	background: none; 
+	margin-right: -40px;
+	text-align: left;
+	line-height: 10px;
+	padding: 33px 0px 20px 0px;
+	margin-top: 40px;
+}
+
+
+
+.textbox3{
+	float: right;
+	width: 560px;
+	height:auto;
+	background: none; 
+	margin-right: -40px;
+	text-align: left;
+	line-height: 10px;
+	padding: 40px 0px 20px 20px;
+	margin-top:115px;
+
+}
+
+
+.textbox4{
+	float: right;
+	width: 560px;
+	height:auto;
+	background: none; 
+	margin-right: 45px;
+	text-align: left;
+	line-height: 10px;
+	padding: 40px 0px 20px 0px;
+	margin-top:140px;
+}
+
+
+
+.texticon{
+	font-size: 30px;
+	color: #fff;
+	margin-top: 0px;
+	text-align: left;
+}
+
+.jarakicon{
+	margin-right:0px;
+	margin-left: 40px;
+}
+
+
+.spantext{
+	margin-left: 10px;
+
+}
+
+.spantext2{
+	margin-left: 5px;
+
+}
+
+.orange{
+	float:left;
+	width: 1280px;
+	background-repeat: no-repeat;
+	background-image: url(../images/orange.png);
+	height: 280px;
+	position: absolute;
+	left: 204px;	
+	top:136px;
+	z-index: 200;
+}
+
+.green{
+	float:left;
+	width: 1280px;
+	background-repeat: no-repeat;
+	background-image: url(../images/green.png);
+	height: 280px;
+	position: absolute;
+	left: 204px;	
+	top:228px;
+	z-index: 300;
+}
+
+.blue{
+	float:left;
+	width: 1280px;
+	background-image: url(../images/blue.png);
+	background-repeat: no-repeat;
+	height: 138px;
+	position: absolute;
+	left: 205px;	
+	top:280px;
+	z-index: 700;
+}
+
+.grey{
+	float:left;
+	width: 1280px;
+	background-repeat: no-repeat;
+	background-image: url(../images/grey.png);
+	height: 223px;
+	position: absolute;
+	left: 205px;	
+	top:288px;
+	z-index: 300;
+}
+
+.sponsorlogo{
+	float:left;
+	width: 700px;
+	background: none;
+	height: 180px;
+	position: absolute;
+	left: 260px;	
+	top:360px;
+	text-align: center;
+
+}
+
+.sponsorlogo p{
+	font-family: lum;
+	font-size: 13px;
+	margin-top: -30px;
+}
+

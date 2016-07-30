@@ -8,6 +8,8 @@ use app\models\ArmadaKirimSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 
 /**
  * ArmadaKirimController implements the CRUD actions for ArmadaKirim model.
@@ -20,10 +22,19 @@ class ArmadaKirimController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -65,9 +76,19 @@ class ArmadaKirimController extends Controller
     {
         $model = new ArmadaKirim();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->request->isAjax && $model->load($_POST)) {
+            Yii::$app->response->format = 'json';
+            return \yii\widgets\ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->kode_kiriman = $this->generateResiNo();
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         } else {
+            $model->status = 'PROCESS';
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -84,8 +105,16 @@ class ArmadaKirimController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->request->isAjax && $model->load($_POST)) {
+            Yii::$app->response->format = 'json';
+            return \yii\widgets\ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            // $model->kode_kiriman = $this->generateResiNo();
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -104,6 +133,14 @@ class ArmadaKirimController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function generateResiNo()
+    {
+        // Format Nomor proposal: AMSYS[UNIXTIME][random_int(100, 999)]
+
+        $resi = 'AMSYS'.date('U').random_int(100, 999);
+        return $resi;
     }
 
     /**

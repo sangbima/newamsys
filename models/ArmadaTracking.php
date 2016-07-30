@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "armada_tracking".
@@ -25,6 +29,30 @@ class ArmadaTracking extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'armada_tracking';
+    }
+
+    public function behaviors()
+    {
+       /*return [
+           TimestampBehavior::className(),
+       ];*/
+
+       return [
+           'timestamp' => [
+               'class' => TimestampBehavior::className(),
+               'attributes' => [
+                   ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                   ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+               ],
+             'value' => function(){ return date('Y-m-d H:i:s'); /* MySql DATETIME */},
+           ],
+           'autouserid' => [
+               'class' => BlameableBehavior::className(),
+               'attributes' => [
+                   ActiveRecord::EVENT_BEFORE_INSERT => ['user_id'],
+               ],
+           ],
+       ];
     }
 
     /**
@@ -53,7 +81,7 @@ class ArmadaTracking extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
-            'armada_kirim_id' => 'Armada Kirim ID',
+            'armada_kirim_id' => 'Armada',
         ];
     }
 

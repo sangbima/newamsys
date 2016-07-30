@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "armada_kirim".
@@ -38,6 +42,30 @@ class ArmadaKirim extends \yii\db\ActiveRecord
         return 'armada_kirim';
     }
 
+    public function behaviors()
+    {
+       /*return [
+           TimestampBehavior::className(),
+       ];*/
+
+       return [
+           'timestamp' => [
+               'class' => TimestampBehavior::className(),
+               'attributes' => [
+                   ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                   ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+               ],
+             'value' => function(){ return date('Y-m-d H:i:s'); /* MySql DATETIME */},
+           ],
+           'autouserid' => [
+               'class' => BlameableBehavior::className(),
+               'attributes' => [
+                   ActiveRecord::EVENT_BEFORE_INSERT => ['user_id'],
+               ],
+           ],
+       ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -70,13 +98,13 @@ class ArmadaKirim extends \yii\db\ActiveRecord
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
             'status' => 'Status',
-            'proposal_id' => 'Proposal ID',
-            'lapak_proses_id' => 'Lapak Proses ID',
-            'pasar_tag_id' => 'Pasar Tag ID',
+            'proposal_id' => 'No. Proposal',
+            'lapak_proses_id' => 'Lapak',
+            'pasar_tag_id' => 'Wilayah',
             'kode_kiriman' => 'Kode Kiriman',
             'no_armada' => 'No Armada',
             'no_polisi' => 'No Polisi',
-            'pengemudi' => 'Pengemudi',
+            'pengemudi' => 'Nama Pengemudi',
             'keterangan' => 'Keterangan',
         ];
     }
@@ -111,5 +139,30 @@ class ArmadaKirim extends \yii\db\ActiveRecord
     public function getArmadaTrackings()
     {
         return $this->hasMany(ArmadaTracking::className(), ['armada_kirim_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProposalNo()
+    {
+        $modelProposal = \app\models\Proposal::find()->where(['setuju_status'=>'{"BGR":"Setuju","ABMI":"Setuju","PPI":"Setuju"}'])->asArray()->all();
+        return ArrayHelper::map($modelProposal, 'id', 'no_proposal');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProseslapak()
+    {
+        // Output Label: id - bobot_muat_kg - jumlah_karung
+        $modelProsesLapak = \app\models\LapakProses::find()->where(['status'=>0])->all();
+
+        $model = [];
+        foreach ($modelProsesLapak as $key => $value) {
+            $model = [$value['id'] => 'ID: '.$value['id'].' - Bobot: '.$value['bobot_muat_kg'].' Kg - Jml: '.$value['jumlah_karung'].' Karung'];
+        }
+
+        return $model;
     }
 }

@@ -460,3 +460,12 @@ dd, dt {
     padding-bottom: 7px;
     margin: 28px 0 0 0;
 }
+.panel-title-karung {
+    margin-top: 10px;
+    position: absolute;
+    margin-left: 10px;
+    font-weight: bolder;
+}
+.with-top-border {
+    border-top: 1px solid #009688;
+}

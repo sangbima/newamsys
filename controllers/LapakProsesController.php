@@ -4,10 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use app\models\LapakProses;
+use app\models\LapakKarung;
 use app\models\LapakProsesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
+use app\models\MultiInput;
 
 /**
  * LapakProsesController implements the CRUD actions for LapakProses model.
@@ -20,10 +24,19 @@ class LapakProsesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -51,8 +64,11 @@ class LapakProsesController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $modelsLapakKarung = $model->lapakKarungs;
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelsLapakKarung' => $modelsLapakKarung
         ]);
     }
 
@@ -64,14 +80,47 @@ class LapakProsesController extends Controller
     public function actionCreate()
     {
         $model = new LapakProses();
+        $modelsLapakKarung = [new LapakKarung];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if(Yii::$app->request->isAjax && $model->load($_POST)) {
+            Yii::$app->response->format = 'json';
+            return \yii\widgets\ActiveForm::validate($model);
         }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $modelsLapakKarung = MultiInput::createMultiple(LapakKarung::classname());
+            MultiInput::loadMultiple($modelsLapakKarung, Yii::$app->request->post());
+
+            $valid = $model->validate();
+            $valid = MultiInput::validateMultiple($modelsLapakKarung) && $valid;
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+
+                try {
+                    if($flag = $model->save(false)) {
+                        foreach($modelsLapakKarung as $modelLapakKarung) {
+                            $modelLapakKarung->lapak_proses_id = $model->id;
+                            if(!($flag = $modelLapakKarung->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+
+                    if($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'modelsLapakKarung' => (empty($modelsLapakKarung)) ? [new LapakKarung] : $modelsLapakKarung
+        ]);
     }
 
     /**
@@ -83,14 +132,54 @@ class LapakProsesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelsLapakKarung = $model->lapakKarungs;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if(Yii::$app->request->isAjax && $model->load($_POST)) {
+            Yii::$app->response->format = 'json';
+            return \yii\widgets\ActiveForm::validate($model);
         }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $oldIDs = ArrayHelper::map($modelsLapakKarung, 'id', 'id');
+            $modelsLapakKarung = MultiInput::createMultiple(LapakKarung::classname(), $modelsLapakKarung);
+            MultiInput::loadMultiple($modelsLapakKarung, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsLapakKarung, 'id', 'id')));
+
+            $valid = $model->validate();
+            $valid = MultiInput::validateMultiple($modelsLapakKarung) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+
+                try {
+                    if($flag = $model->save(false)) {
+                        if (!empty($deletedIDs)) {
+                            LapakKarung::deleteAll(['id' => $deletedIDs]);
+                        }
+
+                        foreach($modelsLapakKarung as $modelLapakKarung) {
+                            $modelLapakKarung->lapak_proses_id = $model->id;
+                            if(!($flag = $modelLapakKarung->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+
+                    if($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+            'modelsLapakKarung' => (empty($modelsLapakKarung)) ? [new LapakKarung] : $modelsLapakKarung
+        ]);
     }
 
     /**
@@ -101,8 +190,16 @@ class LapakProsesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
+        //
+        // return $this->redirect(['index']);
+        $model= $this->findModel($id);
 
+        try {
+             $model->delete();
+        } catch(\yii\db\IntegrityException $e) {
+             throw new \yii\web\ForbiddenHttpException('Anda tidak bisa menghapus record ini, karena masih digunakan oleh record yang lain');
+        }
         return $this->redirect(['index']);
     }
 

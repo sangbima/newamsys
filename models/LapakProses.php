@@ -3,6 +3,11 @@
 namespace app\models;
 
 use Yii;
+use app\models\Proposal;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "lapak_proses".
@@ -17,6 +22,7 @@ use Yii;
  * @property string $bobot_muat_kg
  * @property integer $jumlah_karung
  * @property string $keterangan
+ * @property boolean $status
  *
  * @property ArmadaKirim[] $armadaKirims
  */
@@ -33,11 +39,35 @@ class LapakProses extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+              'value' => function(){ return date('Y-m-d H:i:s'); /* MySql DATETIME */},
+            ],
+            'autouserid' => [
+                'class' => BlameableBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['user_id'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
             [['created_at', 'updated_at'], 'safe'],
-            [['user_id', 'proposal_id', 'jumlah_karung'], 'integer'],
+            [['user_id', 'proposal_id', 'jumlah_karung', 'status'], 'integer'],
             [['latitude', 'longitude', 'bobot_muat_kg'], 'number'],
             [['proposal_id'], 'required'],
             [['keterangan'], 'string'],
@@ -56,8 +86,8 @@ class LapakProses extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
-            'proposal_id' => 'Proposal ID',
-            'bobot_muat_kg' => 'Bobot Muat Kg',
+            'proposal_id' => 'No. Proposal',
+            'bobot_muat_kg' => 'Bobot Muat (Kg)',
             'jumlah_karung' => 'Jumlah Karung',
             'keterangan' => 'Keterangan',
         ];
@@ -66,8 +96,30 @@ class LapakProses extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProposal()
+    {
+        return $this->hasOne(Proposal::className(), ['id' => 'proposal_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLapakKarungs()
+    {
+        return $this->hasMany(LapakKarung::className(), ['lapak_proses_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getArmadaKirims()
     {
         return $this->hasMany(ArmadaKirim::className(), ['lapak_proses_id' => 'id']);
+    }
+
+    public function getProposalNo()
+    {
+        $modelProposal = \app\models\Proposal::find()->where(['setuju_status'=>'{"BGR":"Setuju","ABMI":"Setuju","PPI":"Setuju"}'])->asArray()->all();
+        return ArrayHelper::map($modelProposal, 'id', 'no_proposal');
     }
 }

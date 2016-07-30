@@ -31,6 +31,8 @@ class Websvc8000Controller extends \yii\rest\Controller
             'daftar-pasar-tag' => ['GET','OPTIONS'],
             'daftar-proposal' => ['GET','OPTIONS'],
             'daftar-survey-tanam' => ['GET','OPTIONS'],
+            'daftar-lapak-proses' => ['GET','OPTIONS'],
+            'daftar-armada-kirim' => ['GET','OPTIONS'],
         ];
 
     }
@@ -327,4 +329,29 @@ class Websvc8000Controller extends \yii\rest\Controller
         return $model;
     }
 
+    /**
+    * Daftar Lapak Proses
+    * Method GET
+    * Request -
+    * return all
+    */
+    public function actionDaftarLapakProses()
+    {
+        $model = \app\models\LapakProses::find()->all();
+
+        return $model;
+    }
+
+    /**
+    * Daftar Armada Kirim
+    * Method GET
+    * Request -
+    * return all
+    */
+    public function actionDaftarArmadaKirim()
+    {
+        $model = \app\models\ArmadaKirim::find()->all();
+
+        return $model;
+    }
 }
